@@ -28,6 +28,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:name="android.support.PARENT_ACTIVITY"
             android:value="abrewster.cganong.unb.ca.project.LocationSettingListActivity"/>
     </activity>
+    <activity android:name=".LocationSettingCreateActivity" />
 </application>
 
 </manifest>
