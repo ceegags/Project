@@ -41,7 +41,7 @@ public class LocationSettingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locationsetting_list);
         db = new DBHelper(this);
-        db.insertSettings("Gym","Currie Center",true,true,true,100,true,true,100);
+        db.insertSettings("Home","Currie Center",true,true,true,100,true,true,100);
         locations = db.getAllSettings();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -101,7 +101,7 @@ public class LocationSettingListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).getName());
+            holder.mIdView.setText(mValues.get(position).getLocation());
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,7 +116,7 @@ public class LocationSettingListActivity extends AppCompatActivity {
                     } else {*/
                         Context context = v.getContext();
                         Intent intent = new Intent(context, LocationSettingDetailActivity.class);
-                        intent.putExtra(LocationSettingDetailFragment.ARG_ITEM_ID, holder.mItem.getName());
+                        intent.putExtra(LocationSettingDetailFragment.ARG_ITEM_ID, holder.mItem.getLocation());
 
                         context.startActivity(intent);
                     //}

@@ -86,11 +86,23 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getSettings(String location) {
+    public Location getSettings(String location) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from "+SETTINGS_TABLE_NAME+" where "+SETTINGS_COLUMN_LOCATION+" = "+location+"",null);
+        Cursor res = db.rawQuery("select * from "+SETTINGS_TABLE_NAME+" where "+SETTINGS_COLUMN_LOCATION+" = '"+location+"'",null);
+        res.moveToFirst();
+        Location l = new Location(
+                                    res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION)),
+                                    res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH))==1,
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_WIFI))==1,
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER))==1,
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER_VOLUME)),
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_VIBRATE))==1,
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_ROTATION))==1,
+                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BRIGHTNESS))
+                    );
         db.close();
-        return res;
+        return l;
     }
 
     public int numberOfRowsSettings() {
@@ -145,7 +157,17 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (!res.isAfterLast()) {
-            arrayList.add(new Location(res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION))));
+            arrayList.add(new Location(
+                                res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION)),
+                                res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH))==1,
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_WIFI))==1,
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER))==1,
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER_VOLUME)),
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_VIBRATE))==1,
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_ROTATION))==1,
+                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BRIGHTNESS))
+                            ));
             res.moveToNext();
         }
         res.close();

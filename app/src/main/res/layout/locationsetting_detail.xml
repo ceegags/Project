@@ -15,51 +15,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp"
-    android:paddingTop="50dp">
+    android:paddingLeft="30sp"
+    android:paddingRight="30sp"
+    android:paddingTop="50sp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp">
+        android:paddingBottom="25sp">
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bluetooth"
             android:id="@+id/bluetooth_switch"
-            android:clickable="false"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp">
+        android:paddingBottom="25sp">
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wi-Fi"
             android:id="@+id/wifi_switch"
-            android:clickable="false"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp">
+        android:paddingBottom="15sp">
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ringtone"
             android:id="@+id/ringer_switch"
-            android:clickable="false"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 
@@ -67,7 +64,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp">
+        android:paddingBottom="25sp">
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,53 +77,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp">
+        android:paddingBottom="25sp">
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Vibrate"
             android:id="@+id/vibrate_switch"
-            android:clickable="false"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp">
+        android:paddingBottom="25sp">
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rotation"
             android:id="@+id/rotation_switch"
-            android:clickable="false"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp">
+        android:paddingBottom="15sp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Brightness"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="@color/colorText"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp">
+        android:paddingBottom="25sp">
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/brightness"
             android:max="100"
-            android:enabled="false"/>
+            />
 
     </LinearLayout>
 
