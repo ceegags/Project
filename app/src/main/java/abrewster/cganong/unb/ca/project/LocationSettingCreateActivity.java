@@ -35,8 +35,9 @@ public class LocationSettingCreateActivity extends AppCompatActivity{
                 if (db.insertSettings(location,address,bluetooth,wifi,ringer_volume,vibrate,rotation,brightness)) {
                     Context c = v.getContext();
                     Intent intent = new Intent(c,LocationSettingListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     c.startActivity(intent);
+                    finish();
 
                 } else {
                     Log.i("DB","Insert failed");

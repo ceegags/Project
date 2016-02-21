@@ -1,5 +1,6 @@
 package abrewster.cganong.unb.ca.project;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.widget.Switch;
  */
 public class LocationSettingDetailActivity extends AppCompatActivity {
     private String location,address;
+    private boolean destroyed = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,20 @@ public class LocationSettingDetailActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton delete = (FloatingActionButton) findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context c = v.getContext();
+                DBHelper db = new DBHelper(c);
+                db.deleteSettings(location);
+                destroyed = true;
+                Intent intent = new Intent(c,LocationSettingListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                c.startActivity(intent);
+                finish();
+            }
+        });
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -85,13 +101,15 @@ public class LocationSettingDetailActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        DBHelper db = new DBHelper(this);
-        boolean bluetooth = ((Switch) findViewById(R.id.bluetooth_switch)).isChecked();
-        boolean wifi = ((Switch) findViewById(R.id.wifi_switch)).isChecked();
-        int ringer_volume = ((SeekBar) findViewById(R.id.ringer_volume)).getProgress();
-        boolean vibrate = ((Switch) findViewById(R.id.vibrate_switch)).isChecked();
-        boolean rotation = ((Switch) findViewById(R.id.rotation_switch)).isChecked();
-        int brightness = ((SeekBar) findViewById(R.id.brightness)).getProgress();
-        db.updateSettings(location,address,bluetooth,wifi,ringer_volume,vibrate,rotation,brightness);
+        if (!destroyed) {
+            DBHelper db = new DBHelper(this);
+            boolean bluetooth = ((Switch) findViewById(R.id.bluetooth_switch)).isChecked();
+            boolean wifi = ((Switch) findViewById(R.id.wifi_switch)).isChecked();
+            int ringer_volume = ((SeekBar) findViewById(R.id.ringer_volume)).getProgress();
+            boolean vibrate = ((Switch) findViewById(R.id.vibrate_switch)).isChecked();
+            boolean rotation = ((Switch) findViewById(R.id.rotation_switch)).isChecked();
+            int brightness = ((SeekBar) findViewById(R.id.brightness)).getProgress();
+            db.updateSettings(location, address, bluetooth, wifi, ringer_volume, vibrate, rotation, brightness);
+        }
     }
 }
