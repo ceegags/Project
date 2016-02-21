@@ -9,6 +9,8 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.widget.SeekBar;
+import android.widget.Switch;
 
 /**
  * An activity representing a single LocationSetting detail screen. This
@@ -17,14 +19,15 @@ import android.view.MenuItem;
  * in a {@link LocationSettingListActivity}.
  */
 public class LocationSettingDetailActivity extends AppCompatActivity {
-
+    private String location,address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locationsetting_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
-
+        location = getIntent().getStringExtra(LocationSettingDetailFragment.LOCATION_ID);
+        address = getIntent().getStringExtra(LocationSettingDetailFragment.ADDRESS_ID);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +56,8 @@ public class LocationSettingDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(LocationSettingDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(LocationSettingDetailFragment.ARG_ITEM_ID));
+            arguments.putString(LocationSettingDetailFragment.LOCATION_ID,
+                    getIntent().getStringExtra(LocationSettingDetailFragment.LOCATION_ID));
             LocationSettingDetailFragment fragment = new LocationSettingDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -77,5 +80,18 @@ public class LocationSettingDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        DBHelper db = new DBHelper(this);
+        boolean bluetooth = ((Switch) findViewById(R.id.bluetooth_switch)).isChecked();
+        boolean wifi = ((Switch) findViewById(R.id.wifi_switch)).isChecked();
+        int ringer_volume = ((SeekBar) findViewById(R.id.ringer_volume)).getProgress();
+        boolean vibrate = ((Switch) findViewById(R.id.vibrate_switch)).isChecked();
+        boolean rotation = ((Switch) findViewById(R.id.rotation_switch)).isChecked();
+        int brightness = ((SeekBar) findViewById(R.id.brightness)).getProgress();
+        db.updateSettings(location,address,bluetooth,wifi,ringer_volume,vibrate,rotation,brightness);
     }
 }

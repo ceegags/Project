@@ -1,7 +1,6 @@
 package abrewster.cganong.unb.ca.project;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
 
 
 /**
@@ -24,7 +22,8 @@ public class LocationSettingDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String LOCATION_ID = "location_id";
+    public static final String ADDRESS_ID = "address_id";
     private Location mLocation;
 
     /**
@@ -42,12 +41,12 @@ public class LocationSettingDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(LOCATION_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            //mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-            String id = getArguments().getString(ARG_ITEM_ID);
+            //mItem = DummyContent.ITEM_MAP.get(getArguments().getString(LOCATION_ID));
+            String id = getArguments().getString(LOCATION_ID);
             Activity activity = this.getActivity();
             DBHelper db = new DBHelper(activity);
             mLocation = db.getSettings(id);
@@ -69,7 +68,6 @@ public class LocationSettingDetailFragment extends Fragment {
         }*/
         ((Switch) rootView.findViewById(R.id.bluetooth_switch)).setChecked(mLocation.isBluetooth());
         ((Switch) rootView.findViewById(R.id.wifi_switch)).setChecked(mLocation.isWifi());
-        ((Switch) rootView.findViewById(R.id.ringer_switch)).setChecked(mLocation.isRinger());
         ((SeekBar) rootView.findViewById(R.id.ringer_volume)).setProgress(mLocation.getRinger_volume());
         ((Switch) rootView.findViewById(R.id.vibrate_switch)).setChecked(mLocation.isVibrate());
         ((Switch) rootView.findViewById(R.id.rotation_switch)).setChecked(mLocation.isRotation());
@@ -77,4 +75,6 @@ public class LocationSettingDetailFragment extends Fragment {
 
         return rootView;
     }
+
+
 }

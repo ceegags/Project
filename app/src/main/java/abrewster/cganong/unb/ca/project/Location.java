@@ -5,7 +5,6 @@ public class Location {
     private String address;
     private boolean bluetooth;
     private boolean wifi;
-    private boolean ringer;
     private int ringer_volume;
     private boolean vibrate;
     private boolean rotation;
@@ -15,7 +14,6 @@ public class Location {
                     String addressIn,
                     boolean bluetoothIn,
                     boolean wifiIn,
-                    boolean ringerIn,
                     int ringer_volumeIn,
                     boolean vibrateIn,
                     boolean rotationIn,
@@ -24,7 +22,6 @@ public class Location {
         address= addressIn;
         bluetooth= bluetoothIn;
         wifi= wifiIn;
-        ringer= ringerIn;
         ringer_volume= ringer_volumeIn;
         vibrate= vibrateIn;
         rotation= rotationIn;
@@ -45,10 +42,6 @@ public class Location {
 
     public boolean isWifi() {
         return wifi;
-    }
-
-    public boolean isRinger() {
-        return ringer;
     }
 
     public int getRinger_volume() {

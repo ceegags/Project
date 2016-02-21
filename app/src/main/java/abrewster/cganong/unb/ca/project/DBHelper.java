@@ -13,14 +13,13 @@ import java.util.HashMap;
 
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final int VERSION_NUMBER = 2;
+    public static final int VERSION_NUMBER = 5;
     public static final String DATABASE_NAME = "MyPlaces";
     public static final String SETTINGS_TABLE_NAME = "settings";
     public static final String SETTINGS_COLUMN_LOCATION = "location";
     public static final String SETTINGS_COLUMN_ADDRESS = "address";
     public static final String SETTINGS_COLUMN_BLUETOOTH = "bluetooth";
     public static final String SETTINGS_COLUMN_WIFI = "wifi";
-    public static final String SETTINGS_COLUMN_RINGER = "ringer";
     public static final String SETTINGS_COLUMN_RINGER_VOLUME = "ringer_volume";
     public static final String SETTINGS_COLUMN_VIBRATE = "vibrate";
     public static final String SETTINGS_COLUMN_ROTATION = "rotation";
@@ -28,21 +27,20 @@ public class DBHelper extends SQLiteOpenHelper {
     private HashMap hp;
 
     public DBHelper(Context c) {
-        super(c,DATABASE_NAME,null,VERSION_NUMBER);
+        super(c, DATABASE_NAME, null, VERSION_NUMBER);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table " + SETTINGS_TABLE_NAME + " " +
-                        "(" + SETTINGS_COLUMN_LOCATION + " text primary key, " +
-                        SETTINGS_COLUMN_ADDRESS + " text not null,"+
+                        "(" + SETTINGS_COLUMN_LOCATION + " text primary key not null, " +
+                        SETTINGS_COLUMN_ADDRESS + " text not null," +
                         SETTINGS_COLUMN_BLUETOOTH + " integer not null," +
-                        SETTINGS_COLUMN_WIFI + " integer not null,"+
-                        SETTINGS_COLUMN_RINGER + " integer not null," +
-                        SETTINGS_COLUMN_RINGER_VOLUME + " integer not null,"+
+                        SETTINGS_COLUMN_WIFI + " integer not null," +
+                        SETTINGS_COLUMN_RINGER_VOLUME + " integer not null," +
                         SETTINGS_COLUMN_VIBRATE + " integer not null," +
-                        SETTINGS_COLUMN_ROTATION + " integer not null,"+
+                        SETTINGS_COLUMN_ROTATION + " integer not null," +
                         SETTINGS_COLUMN_BRIGHTNESS + " integer not null" +
                         ")"
         );
@@ -51,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+SETTINGS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SETTINGS_TABLE_NAME);
         onCreate(db);
     }
 
@@ -59,7 +57,6 @@ public class DBHelper extends SQLiteOpenHelper {
                                         String address,
                                         boolean bluetooth,
                                         boolean wifi,
-                                        boolean ringer,
                                         int ringer_volume,
                                         boolean vibrate,
                                         boolean rotation,
@@ -67,11 +64,14 @@ public class DBHelper extends SQLiteOpenHelper {
     ) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(SETTINGS_COLUMN_LOCATION, location);
-        cv.put(SETTINGS_COLUMN_ADDRESS, address);
+        if (location.trim().length() == 0 || address.length() == 0) {
+            db.close();
+            return false;
+        }
+        cv.put(SETTINGS_COLUMN_LOCATION, location.trim());
+        cv.put(SETTINGS_COLUMN_ADDRESS, address.trim());
         cv.put(SETTINGS_COLUMN_BLUETOOTH, bluetooth? 1 : 0);
         cv.put(SETTINGS_COLUMN_WIFI, wifi? 1 : 0);
-        cv.put(SETTINGS_COLUMN_RINGER, ringer? 1 : 0);
         cv.put(SETTINGS_COLUMN_RINGER_VOLUME, ringer_volume);
         cv.put(SETTINGS_COLUMN_VIBRATE, vibrate? 1 : 0);
         cv.put(SETTINGS_COLUMN_ROTATION, rotation? 1 : 0);
@@ -95,7 +95,6 @@ public class DBHelper extends SQLiteOpenHelper {
                                     res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
                                     res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH))==1,
                                     res.getInt(res.getColumnIndex(SETTINGS_COLUMN_WIFI))==1,
-                                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER))==1,
                                     res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER_VOLUME)),
                                     res.getInt(res.getColumnIndex(SETTINGS_COLUMN_VIBRATE))==1,
                                     res.getInt(res.getColumnIndex(SETTINGS_COLUMN_ROTATION))==1,
@@ -116,7 +115,6 @@ public class DBHelper extends SQLiteOpenHelper {
                                         String address,
                                         boolean bluetooth,
                                         boolean wifi,
-                                        boolean ringer,
                                         int ringer_volume,
                                         boolean vibrate,
                                         boolean rotation,
@@ -124,11 +122,14 @@ public class DBHelper extends SQLiteOpenHelper {
     ) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(SETTINGS_COLUMN_LOCATION, location);
-        cv.put(SETTINGS_COLUMN_ADDRESS, address);
+        if (location.trim() == "" || address.trim() == "") {
+            db.close();
+            return false;
+        }
+        cv.put(SETTINGS_COLUMN_LOCATION, location.trim());
+        cv.put(SETTINGS_COLUMN_ADDRESS, address.trim());
         cv.put(SETTINGS_COLUMN_BLUETOOTH, bluetooth? 1 : 0);
         cv.put(SETTINGS_COLUMN_WIFI, wifi? 1 : 0);
-        cv.put(SETTINGS_COLUMN_RINGER, ringer? 1 : 0);
         cv.put(SETTINGS_COLUMN_RINGER_VOLUME, ringer_volume);
         cv.put(SETTINGS_COLUMN_VIBRATE, vibrate? 1 : 0);
         cv.put(SETTINGS_COLUMN_ROTATION, rotation? 1 : 0);
@@ -162,7 +163,6 @@ public class DBHelper extends SQLiteOpenHelper {
                                 res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
                                 res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH))==1,
                                 res.getInt(res.getColumnIndex(SETTINGS_COLUMN_WIFI))==1,
-                                res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER))==1,
                                 res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER_VOLUME)),
                                 res.getInt(res.getColumnIndex(SETTINGS_COLUMN_VIBRATE))==1,
                                 res.getInt(res.getColumnIndex(SETTINGS_COLUMN_ROTATION))==1,

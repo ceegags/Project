@@ -41,7 +41,6 @@ public class LocationSettingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locationsetting_list);
         db = new DBHelper(this);
-        db.insertSettings("Home","Currie Center",true,true,true,100,true,true,100);
         locations = db.getAllSettings();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -107,7 +106,7 @@ public class LocationSettingListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     /*if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(LocationSettingDetailFragment.ARG_ITEM_ID, holder.mItem);
+                        arguments.putString(LocationSettingDetailFragment.LOCATION_ID, holder.mItem);
                         LocationSettingDetailFragment fragment = new LocationSettingDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -116,7 +115,8 @@ public class LocationSettingListActivity extends AppCompatActivity {
                     } else {*/
                         Context context = v.getContext();
                         Intent intent = new Intent(context, LocationSettingDetailActivity.class);
-                        intent.putExtra(LocationSettingDetailFragment.ARG_ITEM_ID, holder.mItem.getLocation());
+                        intent.putExtra(LocationSettingDetailFragment.LOCATION_ID, holder.mItem.getLocation());
+                        intent.putExtra(LocationSettingDetailFragment.ADDRESS_ID, holder.mItem.getAddress());
 
                         context.startActivity(intent);
                     //}

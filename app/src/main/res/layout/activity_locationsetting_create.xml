@@ -72,13 +72,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15sp">
-
-        <Switch
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ringtone"
-            android:id="@+id/ringer_switch"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/colorText"/>
     </LinearLayout>
 
 
