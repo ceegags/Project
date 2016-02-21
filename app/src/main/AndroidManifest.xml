@@ -12,7 +12,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     <activity
         android:name=".LocationSettingListActivity"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
 
@@ -23,12 +24,14 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:name=".LocationSettingDetailActivity"
         android:label="@string/title_locationsetting_detail"
         android:parentActivityName=".LocationSettingListActivity"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:screenOrientation="portrait">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="abrewster.cganong.unb.ca.project.LocationSettingListActivity"/>
     </activity>
-    <activity android:name=".LocationSettingCreateActivity" />
+    <activity android:name=".LocationSettingCreateActivity"
+        android:screenOrientation="portrait"/>
 </application>
 
 </manifest>
