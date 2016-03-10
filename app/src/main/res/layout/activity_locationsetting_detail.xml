@@ -59,6 +59,7 @@
         android:src="@android:drawable/ic_menu_delete"
         app:layout_anchor="@+id/fab"
         app:layout_anchorGravity="center|start"
+        app:backgroundTint="#d32f2f"
         />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -7,4 +7,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_locationsetting_list">LocationSetting</string>
     <string name="title_locationsetting_detail">LocationSetting Detail</string>
+    <string name="google_app_id">myplaces-1246</string>
 </resources>

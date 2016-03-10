@@ -33,13 +33,23 @@
         android:layout_height="wrap_content"
         android:paddingBottom="20sp">
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="wrap_content"
             android:id="@+id/address_input"
             android:hint="Address"
             android:textSize="20sp"
             android:layout_gravity="right"
             />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Find"
+            android:id="@+id/find_button"
+            android:enabled="false"/>
     </LinearLayout>
 
     <LinearLayout

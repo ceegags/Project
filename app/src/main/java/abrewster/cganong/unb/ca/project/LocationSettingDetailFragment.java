@@ -24,7 +24,7 @@ public class LocationSettingDetailFragment extends Fragment {
      */
     public static final String LOCATION_ID = "location_id";
     public static final String ADDRESS_ID = "address_id";
-    private Location mLocation;
+    private LocationSetting mLocationSetting;
 
     /**
      * The dummy content this fragment is presenting.
@@ -49,7 +49,7 @@ public class LocationSettingDetailFragment extends Fragment {
             String id = getArguments().getString(LOCATION_ID);
             Activity activity = this.getActivity();
             DBHelper db = new DBHelper(activity);
-            mLocation = db.getSettings(id);
+            mLocationSetting = db.getSettings(id);
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                appBarLayout.setTitle(id);
@@ -66,12 +66,12 @@ public class LocationSettingDetailFragment extends Fragment {
         /*if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.locationsetting_detail)).setText(mItem.details);
         }*/
-        ((Switch) rootView.findViewById(R.id.bluetooth_switch)).setChecked(mLocation.isBluetooth());
-        ((Switch) rootView.findViewById(R.id.wifi_switch)).setChecked(mLocation.isWifi());
-        ((SeekBar) rootView.findViewById(R.id.ringer_volume)).setProgress(mLocation.getRinger_volume());
-        ((Switch) rootView.findViewById(R.id.vibrate_switch)).setChecked(mLocation.isVibrate());
-        ((Switch) rootView.findViewById(R.id.rotation_switch)).setChecked(mLocation.isRotation());
-        ((SeekBar) rootView.findViewById(R.id.brightness)).setProgress(mLocation.getBrightness());
+        ((Switch) rootView.findViewById(R.id.bluetooth_switch)).setChecked(mLocationSetting.isBluetooth());
+        ((Switch) rootView.findViewById(R.id.wifi_switch)).setChecked(mLocationSetting.isWifi());
+        ((SeekBar) rootView.findViewById(R.id.ringer_volume)).setProgress(mLocationSetting.getRinger_volume());
+        ((Switch) rootView.findViewById(R.id.vibrate_switch)).setChecked(mLocationSetting.isVibrate());
+        ((Switch) rootView.findViewById(R.id.rotation_switch)).setChecked(mLocationSetting.isRotation());
+        ((SeekBar) rootView.findViewById(R.id.brightness)).setProgress(mLocationSetting.getBrightness());
 
         return rootView;
     }

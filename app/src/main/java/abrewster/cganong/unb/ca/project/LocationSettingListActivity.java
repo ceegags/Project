@@ -34,14 +34,14 @@ public class LocationSettingListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     DBHelper db;
-    ArrayList<Location> locations;
+    ArrayList<LocationSetting> locationSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locationsetting_list);
         db = new DBHelper(this);
-        locations = db.getAllSettings();
+        locationSettings = db.getAllSettings();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,15 +78,15 @@ public class LocationSettingListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(locations));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(locationSettings));
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Location> mValues;
+        private final List<LocationSetting> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<Location> items) {
+        public SimpleItemRecyclerViewAdapter(List<LocationSetting> items) {
             mValues = items;
         }
 
@@ -132,7 +132,7 @@ public class LocationSettingListActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView mIdView;
-            public Location mItem;
+            public LocationSetting mItem;
 
             public ViewHolder(View view) {
                 super(view);

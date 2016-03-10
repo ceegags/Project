@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,11 +85,11 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Location getSettings(String location) {
+    public LocationSetting getSettings(String location) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from "+SETTINGS_TABLE_NAME+" where "+SETTINGS_COLUMN_LOCATION+" = '"+location+"'",null);
         res.moveToFirst();
-        Location l = new Location(
+        LocationSetting l = new LocationSetting(
                                     res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION)),
                                     res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
                                     res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH))==1,
@@ -150,15 +149,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public ArrayList<Location> getAllSettings() {
-        ArrayList<Location> arrayList = new ArrayList<>();
+    public ArrayList<LocationSetting> getAllSettings() {
+        ArrayList<LocationSetting> arrayList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from "+SETTINGS_TABLE_NAME,null);
         res.moveToFirst();
 
         while (!res.isAfterLast()) {
-            arrayList.add(new Location(
+            arrayList.add(new LocationSetting(
                                 res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION)),
                                 res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
                                 res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH))==1,
