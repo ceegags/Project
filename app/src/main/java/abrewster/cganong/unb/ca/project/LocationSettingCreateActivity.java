@@ -156,7 +156,6 @@ public class LocationSettingCreateActivity extends AppCompatActivity implements 
             Log.i("LOCATION",lastLocation.toString());
             if (lastLocation != null) {
                 editText = (EditText) findViewById(R.id.address_input);
-                //editText.setText(String.valueOf(lastLocation.getLatitude())+", "+String.valueOf(lastLocation.getLongitude()));
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                 try {
                     List<Address> listAddresses = geocoder.getFromLocation(lastLocation.getLatitude(), lastLocation.getLongitude(), 1);

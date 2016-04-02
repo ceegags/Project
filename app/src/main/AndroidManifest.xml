@@ -3,6 +3,7 @@
     package="abrewster.cganong.unb.ca.project">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:enabled="true" android:name=".LocationService" android:label="myPlaces Service" />
         <activity
             android:name=".LocationSettingListActivity"
             android:label="@string/app_name"
@@ -36,10 +38,6 @@
             android:name=".LocationSettingCreateActivity"
             android:screenOrientation="portrait" />
 
-        <service
-            android:name=".myPlaces"
-            android:enabled="true"
-            android:exported="false"></service>
     </application>
 
 </manifest>

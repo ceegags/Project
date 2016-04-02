@@ -87,7 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public LocationSetting getSettings(String location) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from "+SETTINGS_TABLE_NAME+" where "+SETTINGS_COLUMN_LOCATION+" = '"+location+"'",null);
+        Cursor res = db.query(SETTINGS_TABLE_NAME,null,SETTINGS_COLUMN_LOCATION+"=?",new String[]{location},null,null,null,null);
         res.moveToFirst();
         LocationSetting l = new LocationSetting(
                                     res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION)),
