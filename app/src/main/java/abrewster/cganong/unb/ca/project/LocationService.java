@@ -77,12 +77,13 @@ public class LocationService extends Service {
                                 return;
                             }
                         }
-                        if (handleSettings(addressToString(address1))) {
+                        String mylocation = handleSettings(addressToString(address1));
+                        if (mylocation != null) {
                             NotificationCompat.Builder mBuilder =
                                     new NotificationCompat.Builder(LocationService.this)
                                             .setSmallIcon(R.drawable.ic_menu_manage)
                                             .setContentTitle("Location updated")
-                                            .setContentText(addressToString(address1));
+                                            .setContentText(mylocation);
 
                             NotificationManager mNotificationManager =
                                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -164,11 +165,11 @@ public class LocationService extends Service {
 
     }
 
-    public boolean handleSettings(String address) {
+    public String handleSettings(String address) {
         DBHelper dbHelper = new DBHelper(getApplicationContext());
         LocationSetting ls = dbHelper.getSettingsByAddress(address);
         if (ls == null) {
-            return false;
+            return null;
         }
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -181,11 +182,11 @@ public class LocationService extends Service {
         }
         AudioManager audioManager = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
         int streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-        audioManager.setStreamVolume(AudioManager.STREAM_RING, streamMaxVolume * ls.getRinger_volume() / 100, AudioManager.FLAG_ALLOW_RINGER_MODES | AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, streamMaxVolume * ls.getRinger_volume() / 100, AudioManager.FLAG_ALLOW_RINGER_MODES);// | AudioManager.FLAG_PLAY_SOUND);
 
         WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         wifiManager.setWifiEnabled(ls.isWifi());
 
-        return true;
+        return ls.getLocation();
     }
 }
