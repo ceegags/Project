@@ -73,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(SETTINGS_COLUMN_WIFI, wifi? 1 : 0);
         cv.put(SETTINGS_COLUMN_RINGER_VOLUME, ringer_volume);
         cv.put(SETTINGS_COLUMN_VIBRATE, vibrate? 1 : 0);
-        cv.put(SETTINGS_COLUMN_ROTATION, rotation? 1 : 0);
+        cv.put(SETTINGS_COLUMN_ROTATION, rotation ? 1 : 0);
         cv.put(SETTINGS_COLUMN_BRIGHTNESS, brightness);
 
         if (db.insert(SETTINGS_TABLE_NAME,null,cv) == -1) {
@@ -101,6 +101,29 @@ public class DBHelper extends SQLiteOpenHelper {
                     );
         db.close();
         return l;
+    }
+
+    public LocationSetting getSettingsByAddress (String address) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.query(SETTINGS_TABLE_NAME,null,SETTINGS_COLUMN_ADDRESS+"=?",new String[]{address},null,null,null,null);
+        if (res.getCount() == 0) {
+            db.close();
+            return null;
+        } else {
+            res.moveToFirst();
+            LocationSetting l = new LocationSetting(
+                    res.getString(res.getColumnIndex(SETTINGS_COLUMN_LOCATION)),
+                    res.getString(res.getColumnIndex(SETTINGS_COLUMN_ADDRESS)),
+                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BLUETOOTH)) == 1,
+                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_WIFI)) == 1,
+                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_RINGER_VOLUME)),
+                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_VIBRATE)) == 1,
+                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_ROTATION)) == 1,
+                    res.getInt(res.getColumnIndex(SETTINGS_COLUMN_BRIGHTNESS))
+            );
+            db.close();
+            return l;
+        }
     }
 
     public int numberOfRowsSettings() {

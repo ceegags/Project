@@ -2,6 +2,8 @@ package abrewster.cganong.unb.ca.project;
 
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -9,6 +11,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -70,16 +74,18 @@ public class LocationService extends Service {
                                 return;
                             }
                         }
-                        NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(LocationService.this)
-                                        .setSmallIcon(R.drawable.ic_menu_manage)
-                                        .setContentTitle("Location updated")
-                                        .setContentText(addressToString(address1));
+                        if (handleSettings(addressToString(address1))) {
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(LocationService.this)
+                                            .setSmallIcon(R.drawable.ic_menu_manage)
+                                            .setContentTitle("Location updated")
+                                            .setContentText(addressToString(address1));
 
-                        NotificationManager mNotificationManager =
-                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        // mId allows you to update the notification later on.
-                        mNotificationManager.notify(1234, mBuilder.build());
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            // mId allows you to update the notification later on.
+                            mNotificationManager.notify(1234, mBuilder.build());
+                        }
                         previousBestLocation = location;
                     }
                 }
@@ -153,5 +159,31 @@ public class LocationService extends Service {
     public static String addressToString(Address a) {
         return (a.getAddressLine(0) + ", " + a.getAddressLine(1) + ", " + a.getAddressLine(2));
 
+    }
+
+    public boolean handleSettings(String address) {
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        LocationSetting ls = dbHelper.getSettingsByAddress(address);
+        if (ls == null) {
+            return false;
+        }
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        boolean isEnabled = bluetoothAdapter.isEnabled();
+        if (ls.isBluetooth() && !isEnabled) {
+            bluetoothAdapter.enable();
+        }
+        else if(!ls.isBluetooth() && isEnabled) {
+            bluetoothAdapter.disable();
+        }
+        AudioManager audioManager = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
+        int streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, streamMaxVolume*ls.getRinger_volume()/100, AudioManager.FLAG_ALLOW_RINGER_MODES|AudioManager.FLAG_PLAY_SOUND);
+
+        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(ls.isWifi());
+
+
+        return true;
     }
 }
