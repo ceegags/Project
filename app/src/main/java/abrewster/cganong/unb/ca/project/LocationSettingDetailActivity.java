@@ -34,8 +34,9 @@ public class LocationSettingDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(view.getContext(),LocationSettingEditActivity.class);
+                intent.putExtra(LocationSettingDetailFragment.LOCATION_ID,location);
+                startActivity(intent);
             }
         });
 
@@ -106,9 +107,12 @@ public class LocationSettingDetailActivity extends AppCompatActivity {
             boolean bluetooth = ((Switch) findViewById(R.id.bluetooth_switch)).isChecked();
             boolean wifi = ((Switch) findViewById(R.id.wifi_switch)).isChecked();
             int ringer_volume = ((SeekBar) findViewById(R.id.ringer_volume)).getProgress();
-            boolean vibrate = ((Switch) findViewById(R.id.vibrate_switch)).isChecked();
+            /*boolean vibrate = ((Switch) findViewById(R.id.vibrate_switch)).isChecked();
             boolean rotation = ((Switch) findViewById(R.id.rotation_switch)).isChecked();
-            int brightness = ((SeekBar) findViewById(R.id.brightness)).getProgress();
+            int brightness = ((SeekBar) findViewById(R.id.brightness)).getProgress();*/
+            boolean vibrate =false;
+            boolean rotation = false;
+            int brightness = 0;
             db.updateSettings(location, address, bluetooth, wifi, ringer_volume, vibrate, rotation, brightness);
         }
     }

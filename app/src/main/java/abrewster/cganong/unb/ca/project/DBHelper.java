@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final int VERSION_NUMBER = 5;
+    public static final int VERSION_NUMBER = 6;
     public static final String DATABASE_NAME = "MyPlaces";
     public static final String SETTINGS_TABLE_NAME = "settings";
     public static final String SETTINGS_COLUMN_LOCATION = "location";
@@ -38,9 +38,9 @@ public class DBHelper extends SQLiteOpenHelper {
                         SETTINGS_COLUMN_BLUETOOTH + " integer not null," +
                         SETTINGS_COLUMN_WIFI + " integer not null," +
                         SETTINGS_COLUMN_RINGER_VOLUME + " integer not null," +
-                        SETTINGS_COLUMN_VIBRATE + " integer not null," +
-                        SETTINGS_COLUMN_ROTATION + " integer not null," +
-                        SETTINGS_COLUMN_BRIGHTNESS + " integer not null" +
+                        SETTINGS_COLUMN_VIBRATE + " integer default false," +
+                        SETTINGS_COLUMN_ROTATION + " integer default 0," +
+                        SETTINGS_COLUMN_BRIGHTNESS + " integer default false" +
                         ")"
         );
 
@@ -72,9 +72,9 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(SETTINGS_COLUMN_BLUETOOTH, bluetooth? 1 : 0);
         cv.put(SETTINGS_COLUMN_WIFI, wifi? 1 : 0);
         cv.put(SETTINGS_COLUMN_RINGER_VOLUME, ringer_volume);
-        cv.put(SETTINGS_COLUMN_VIBRATE, vibrate? 1 : 0);
+        /*cv.put(SETTINGS_COLUMN_VIBRATE, vibrate? 1 : 0);
         cv.put(SETTINGS_COLUMN_ROTATION, rotation ? 1 : 0);
-        cv.put(SETTINGS_COLUMN_BRIGHTNESS, brightness);
+        cv.put(SETTINGS_COLUMN_BRIGHTNESS, brightness);*/
 
         if (db.insert(SETTINGS_TABLE_NAME,null,cv) == -1) {
             db.close();

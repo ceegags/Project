@@ -69,9 +69,9 @@ public class LocationSettingDetailFragment extends Fragment {
         ((Switch) rootView.findViewById(R.id.bluetooth_switch)).setChecked(mLocationSetting.isBluetooth());
         ((Switch) rootView.findViewById(R.id.wifi_switch)).setChecked(mLocationSetting.isWifi());
         ((SeekBar) rootView.findViewById(R.id.ringer_volume)).setProgress(mLocationSetting.getRinger_volume());
-        ((Switch) rootView.findViewById(R.id.vibrate_switch)).setChecked(mLocationSetting.isVibrate());
+        /*((Switch) rootView.findViewById(R.id.vibrate_switch)).setChecked(mLocationSetting.isVibrate());
         ((Switch) rootView.findViewById(R.id.rotation_switch)).setChecked(mLocationSetting.isRotation());
-        ((SeekBar) rootView.findViewById(R.id.brightness)).setProgress(mLocationSetting.getBrightness());
+        ((SeekBar) rootView.findViewById(R.id.brightness)).setProgress(mLocationSetting.getBrightness());*/
 
         return rootView;
     }

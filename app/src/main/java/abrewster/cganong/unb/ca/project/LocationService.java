@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -81,9 +82,12 @@ public class LocationService extends Service {
                         if (mylocation != null) {
                             NotificationCompat.Builder mBuilder =
                                     new NotificationCompat.Builder(LocationService.this)
-                                            .setSmallIcon(R.drawable.ic_menu_manage)
+                                            .setSmallIcon(R.drawable.notification)
+                                            .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
                                             .setContentTitle("Location updated")
-                                            .setContentText(mylocation);
+                                            .setContentText(mylocation)
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                    .setCategory(NotificationCompat.CATEGORY_SYSTEM);
 
                             NotificationManager mNotificationManager =
                                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

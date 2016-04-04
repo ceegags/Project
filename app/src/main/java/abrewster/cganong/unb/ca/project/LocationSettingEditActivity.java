@@ -1,6 +1,5 @@
 package abrewster.cganong.unb.ca.project;
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +7,10 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,19 +27,25 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationSettingCreateActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class LocationSettingEditActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private GoogleApiClient mGoogleApiClient;
     private Button findButton;
     private EditText editText;
+    private TextView nameText;
     private String TAG = "Perm";
-
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_locationsetting_create);
+        setContentView(R.layout.activity_location_setting_edit);
+        String location = getIntent().getStringExtra(LocationSettingDetailFragment.LOCATION_ID);
         final DBHelper db = new DBHelper(this);
+        final LocationSetting locationSetting = db.getSettings(location);
+        nameText = (TextView) findViewById(R.id.location_input);
+        editText = (EditText) findViewById(R.id.address_input);
+        nameText.setText(locationSetting.getLocation());
+        editText.setText(locationSetting.getAddress());
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -57,36 +62,38 @@ public class LocationSettingCreateActivity extends AppCompatActivity implements 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String location = ((TextView) findViewById(R.id.location_input)).getText().toString();
-                String address = ((TextView) findViewById(R.id.address_input)).getText().toString();
+                String address = ((EditText) findViewById(R.id.address_input)).getText().toString();
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                 try {
                     List<Address> listAddresses = geocoder.getFromLocationName(address, 1);
                     if (null != listAddresses && listAddresses.size() > 0) {
                         Address addr = listAddresses.get(0);
-                        address = addr.getAddressLine(0)+", "+addr.getAddressLine(1)+", "+addr.getAddressLine(2);
+                        address = addr.getAddressLine(0) + ", " + addr.getAddressLine(1) + ", " + addr.getAddressLine(2);
                     }
                 } catch (IOException e) {
 
                 }
-                boolean bluetooth = ((Switch) findViewById(R.id.bluetooth_switch)).isChecked();
-                boolean wifi = ((Switch) findViewById(R.id.wifi_switch)).isChecked();
-                int ringer_volume = ((SeekBar) findViewById(R.id.ringer_volume)).getProgress();
-                /*boolean vibrate = ((Switch) findViewById(R.id.vibrate_switch)).isChecked();
-                boolean rotation = ((Switch) findViewById(R.id.rotation_switch)).isChecked();
-                int brightness = ((SeekBar) findViewById(R.id.brightness)).getProgress();*/
-                boolean vibrate = false;
-                boolean rotation = false;
-                int brightness = 0;
-                if (db.insertSettings(location,address,bluetooth,wifi,ringer_volume,vibrate,rotation,brightness)) {
+
+
+                if (db.updateSettings(
+                        locationSetting.getLocation(),
+                        address,
+                        locationSetting.isBluetooth(),
+                        locationSetting.isWifi(),
+                        locationSetting.getRinger_volume(),
+                        locationSetting.isVibrate(),
+                        locationSetting.isRotation(),
+                        locationSetting.getBrightness())) {
                     Context c = v.getContext();
-                    Intent intent = new Intent(c,LocationSettingListActivity.class);
+                    Intent intent = new Intent(c, LocationSettingDetailActivity.class);
+                    intent.putExtra(LocationSettingDetailFragment.LOCATION_ID, locationSetting.getLocation());
+                    intent.putExtra(LocationSettingDetailFragment.ADDRESS_ID, address);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     c.startActivity(intent);
                     finish();
 
                 } else {
-                    Log.i("DB","Insert failed");
+                    Log.i("DB", "Update failed");
                 }
 
             }
